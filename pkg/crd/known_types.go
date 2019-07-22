@@ -73,6 +73,13 @@ var KnownPackages = map[string]PackageOverride{
 		}
 		// No point in calling AddPackage, this is the sole inhabitant
 	},
+
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1": func(p *Parser, pkg *loader.Package) {
+		p.Schemata[TypeIdent{Name: "JSON", Package: pkg}] = apiext.JSONSchemaProps{
+			Type: "object",
+		}
+		p.AddPackage(pkg) // get the rest of the types
+	},
 }
 
 // AddKnownTypes registers the packages overrides in KnownPackages with the given parser.
